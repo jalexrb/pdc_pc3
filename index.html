@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reproductor de Video</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    video {
+      max-width: 100%;
+      max-height: 80vh;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <button onclick="loadVideo('video_ok_02.mp4')">Video 1 (8000)</button>
+    <button onclick="loadVideo('video_ok_01.mp4')">Video 2 (1200)</button>
+    <button id="playPauseBtn" onclick="togglePlayPause()">Play / Pause</button>
+    <button id="volumeUpBtn" onclick="changeVolume('+')">Volume Up</button>
+    <button id="volumeDownBtn" onclick="changeVolume('-')">Volume Down</button>
+  </div>
+  
+  <br>
+
+  <video id="videoPlayer" controls autoplay>
+    Tu navegador no admite la reproducción de videos HTML5.
+  </video>
+
+  <script>
+    var video = document.getElementById('videoPlayer');
+    var playPauseBtn = document.getElementById('playPauseBtn');
+    var volumeUpBtn = document.getElementById('volumeUpBtn');
+    var volumeDownBtn = document.getElementById('volumeDownBtn');
+
+    function togglePlayPause() {
+      if (video.paused) {
+        video.play();
+        playPauseBtn.textContent = 'Pause';
+      } else {
+        video.pause();
+        playPauseBtn.textContent = 'Play';
+      }
+    }
+
+    function changeVolume(direction) {
+      var volumeChange = 0.1;
+      if (direction === '+') {
+        video.volume += volumeChange;
+      } else if (direction === '-') {
+        video.volume -= volumeChange;
+      }
+      video.volume = Math.max(0, Math.min(video.volume, 1));
+    }
+
+    function loadVideo(videoSource) {
+      var video = document.getElementById('videoPlayer');
+      var source = document.createElement('source');
+
+      while (video.firstChild) {
+        video.removeChild(video.firstChild);
+      }
+
+      source.src = videoSource;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+
+      video.load();
+      video.play();
+    }
+  </script>
+</body>
+</html>
